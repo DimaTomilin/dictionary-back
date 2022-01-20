@@ -7,6 +7,7 @@ require('express-async-errors');
 require('dotenv').config();
 
 const wordRouter = require('./routers/word');
+const partOfSpeechRouter = require('./routers/part-of-speech');
 const { morganBodyLogger } = require('./morgan');
 const errorHandlingMiddleware = require('./middlewares/errorHandlingMiddleware');
 const unknownEndpoint = require('./middlewares/unknownEndpoint');
@@ -21,6 +22,8 @@ app.get('/', (req, res) => {
   console.log('here');
   res.send('working');
 });
+
+app.use('/part-of-speech', partOfSpeechRouter);
 app.use('/', wordRouter);
 
 // unknownEndpoint handling middleware

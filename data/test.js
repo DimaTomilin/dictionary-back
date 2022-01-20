@@ -161,7 +161,100 @@ const addWordToTable = () => {
       }
     });
   });
+  allWords.slice(10000, 10021).forEach(({ word, pos, definitions }) => {
+    const params = {
+      TableName: 'Words_Test',
+      Item: {
+        Word: word.toLowerCase(),
+        Part_of_speech: convertPartOfSpeech(pos),
+        Definition: definitions,
+      },
+    };
+
+    docClient.put(params, (err, data) => {
+      if (err) {
+        console.error(
+          'Unable to add movie',
+          word,
+          '. Error JSON:',
+          JSON.stringify(err, null, 2)
+        );
+      } else {
+        console.log('PutItem succeeded:', word);
+      }
+    });
+  });
+  allWords.slice(40000, 40021).forEach(({ word, pos, definitions }) => {
+    const params = {
+      TableName: 'Words_Test',
+      Item: {
+        Word: word.toLowerCase(),
+        Part_of_speech: convertPartOfSpeech(pos),
+        Definition: definitions,
+      },
+    };
+
+    docClient.put(params, (err, data) => {
+      if (err) {
+        console.error(
+          'Unable to add movie',
+          word,
+          '. Error JSON:',
+          JSON.stringify(err, null, 2)
+        );
+      } else {
+        console.log('PutItem succeeded:', word);
+      }
+    });
+  });
+};
+
+const getMovies2 = () => {
+  AWS.config.update(config.aws_remote_config);
+
+  const docClient = new AWS.DynamoDB.DocumentClient();
+
+  const params = {
+    FilterExpression: 'Part_of_speech = :p',
+    ExpressionAttributeValues: {
+      ':p': 'Noun',
+    },
+    TableName: 'Words_Test',
+  };
+
+  docClient.scan(params, (err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      const { Items } = data;
+      console.log(data);
+    }
+  });
 };
 
 // createTable();
 addWordToTable();
+// getMovies3();
+
+// AWS.config.update(config.aws_remote_config);
+
+// const dynamodb = new AWS.DynamoDB();
+
+// const params = {
+//   TableName: 'Words_Test',
+// };
+
+// // Call DynamoDB to add the item to the table
+// dynamodb.deleteTable(params, (err, data) => {
+//   if (err) {
+//     console.error(
+//       'Unable to create table. Error JSON:',
+//       JSON.stringify(err, null, 2)
+//     );
+//   } else {
+//     console.log(
+//       'Created table. Table description JSON:',
+//       JSON.stringify(data, null, 2)
+//     );
+//   }
+// });
