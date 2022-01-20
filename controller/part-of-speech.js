@@ -18,7 +18,7 @@ const getRandomWordOfPart = async (req, res) => {
     ExpressionAttributeValues: {
       ':p': partOfSpeech,
     },
-    TableName: 'Words_Test',
+    TableName: 'Words_Main_DB',
   };
 
   docClient.scan(params, (err, data) => {

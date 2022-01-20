@@ -15,7 +15,7 @@ const getWord = async (req, res) => {
       },
     },
     KeyConditionExpression: 'Word=:v1',
-    TableName: 'Words_Test',
+    TableName: 'Words_Main_DB',
   };
   dynamodb.query(params, (err, data) => {
     if (err) {
@@ -42,7 +42,7 @@ const getWordByPartOfSpeech = async (req, res) => {
       },
     },
     KeyConditionExpression: 'Word=:v1 and Part_of_speech=:v2',
-    TableName: 'Words_Test',
+    TableName: 'Words_Main_DB',
   };
   dynamodb.query(params, (err, data) => {
     if (err) {
