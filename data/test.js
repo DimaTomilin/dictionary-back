@@ -100,12 +100,12 @@ const createTable = () => {
   const params = {
     TableName: 'Words_Test',
     KeySchema: [
-      { AttributeName: 'Id', KeyType: 'HASH' }, // Partition key
-      { AttributeName: 'Word', KeyType: 'RANGE' },
+      { AttributeName: 'Word', KeyType: 'HASH' }, // Partition key
+      { AttributeName: 'Part_of_speech', KeyType: 'RANGE' },
     ],
     AttributeDefinitions: [
-      { AttributeName: 'Id', AttributeType: 'S' },
       { AttributeName: 'Word', AttributeType: 'S' },
+      { AttributeName: 'Part_of_speech', AttributeType: 'S' },
     ],
     ProvisionedThroughput: {
       ReadCapacityUnits: 10,
@@ -135,12 +135,13 @@ const addWordToTable = () => {
 
   console.log('Importing words into DynamoDB. Please wait.');
 
-  const allWords = JSON.parse(fs.readFileSync('./dictionary.json', 'utf8'));
+  const allWords = JSON.parse(
+    fs.readFileSync('./data/dictionary.json', 'utf8')
+  );
   allWords.slice(0, 21).forEach(({ word, pos, definitions }) => {
     const params = {
       TableName: 'Words_Test',
       Item: {
-        Id: nanoid(),
         Word: word.toLowerCase(),
         Part_of_speech: convertPartOfSpeech(pos),
         Definition: definitions,
@@ -162,4 +163,5 @@ const addWordToTable = () => {
   });
 };
 
+// createTable();
 addWordToTable();
