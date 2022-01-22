@@ -1,5 +1,4 @@
 /* eslint-disable */
-const serverless = require('serverless-http');
 const express = require('express');
 const app = express();
 
@@ -32,8 +31,6 @@ app.use(unknownEndpoint);
 // error handling middleware
 app.use(errorHandlingMiddleware);
 
-module.exports.handler = serverless(app);
-
-// app.listen(port, () => {
-//   console.log(`litsening in port ${port}`);
-// });
+app.listen(port, () => {
+  console.log(`litsening in port ${port}`);
+});
