@@ -1,3 +1,4 @@
+/* eslint-disable */
 const AWS = require('aws-sdk');
 const config = require('./config');
 

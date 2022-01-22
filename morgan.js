@@ -1,3 +1,4 @@
+/* eslint-disable */
 const morgan = require('morgan');
 
 exports.morganBodyLogger = morgan((tokens, req, res, next) => {
@@ -13,5 +14,3 @@ exports.morganBodyLogger = morgan((tokens, req, res, next) => {
     tokens.body(req, res),
   ].join(' ');
 });
-
-// add here any logger function you want

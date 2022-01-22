@@ -25,7 +25,6 @@ const getRandomWordOfPart = async (req, res) => {
     if (err) {
       res.send({ error: err });
     } else if (letter) {
-      console.log('here');
       res.send(getRandomItemByLetter(data.Items, letter));
     } else {
       res.send(getRandomItem(data.Items, data.Count));
