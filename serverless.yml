@@ -1,19 +1,29 @@
 service: serverless-nodejs-app
-custom: # add these two lines
-  secrets: ${file(secrets.json)} # reference the secrets.json file
+
 provider:
   name: aws
   runtime: nodejs14.x
   stage: production # make sure to change this to production
   region: us-east-1
-  environment: # add environment property
-    NODE_ENV: ${self:custom.secrets.NODE_ENV}
-    ACCESS_KEY_ID: ${self:custom.secrets.ACCESS_KEY_ID}
-    SECRET_ACCESS_KEY: ${self:custom.secrets.SECRET_ACCESS_KEY}
+  environment:
+    DYNAMODB_TABLE: 'Words_Main_DB'
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource: 'arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}'
+
     # reference the NODE_ENV from the secrets.json file
 functions:
   app:
-    handler: app.server
+    handler: app.handler
     events:
       - http:
           path: /

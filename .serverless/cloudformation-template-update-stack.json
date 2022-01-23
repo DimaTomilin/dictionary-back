@@ -133,6 +133,18 @@
                       "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/serverless-nodejs-app-production*:*:*"
                     }
                   ]
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "dynamodb:Query",
+                    "dynamodb:Scan",
+                    "dynamodb:GetItem",
+                    "dynamodb:PutItem",
+                    "dynamodb:UpdateItem",
+                    "dynamodb:DeleteItem"
+                  ],
+                  "Resource": "arn:aws:dynamodb:us-east-1:*:table/Words_Main_DB"
                 }
               ]
             }
@@ -161,18 +173,16 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/serverless-nodejs-app/production/1642860680504-2022-01-22T14:11:20.504Z/serverless-nodejs-app.zip"
+          "S3Key": "serverless/serverless-nodejs-app/production/1642928876320-2022-01-23T09:07:56.320Z/serverless-nodejs-app.zip"
         },
-        "Handler": "app.server",
+        "Handler": "app.handler",
         "Runtime": "nodejs14.x",
         "FunctionName": "serverless-nodejs-app-production-app",
         "MemorySize": 1024,
         "Timeout": 6,
         "Environment": {
           "Variables": {
-            "NODE_ENV": "production",
-            "ACCESS_KEY_ID": "AKIA56ZXZ2YWQ45M5L32",
-            "SECRET_ACCESS_KEY": "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"
+            "DYNAMODB_TABLE": "Words_Main_DB"
           }
         },
         "Role": {
@@ -186,14 +196,14 @@
         "AppLogGroup"
       ]
     },
-    "AppLambdaVersionE9RzuDLG9E4tZprNj2iROq2VwfObO7gVA8IkwqM0": {
+    "AppLambdaVersions70wsMyAzi75iUC8AwIJji9okR53NdlkBdy04vrQMdE": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "AppLambdaFunction"
         },
-        "CodeSha256": "5uvpQIfTBpUBIefRMetixchM9vmxR7p2DXe6Kaag7BM="
+        "CodeSha256": "5vDwH4xiGYFHHAiQaMRV7Gws/YtK2Ha7fYNEJWJm1jg="
       }
     },
     "ApiGatewayRestApi": {
@@ -411,7 +421,7 @@
         "AppLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1642860676439": {
+    "ApiGatewayDeployment1642928871688": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -476,7 +486,7 @@
     "AppLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AppLambdaVersionE9RzuDLG9E4tZprNj2iROq2VwfObO7gVA8IkwqM0"
+        "Ref": "AppLambdaVersions70wsMyAzi75iUC8AwIJji9okR53NdlkBdy04vrQMdE"
       },
       "Export": {
         "Name": "sls-serverless-nodejs-app-production-AppLambdaFunctionQualifiedArn"
