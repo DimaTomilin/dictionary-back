@@ -8,7 +8,7 @@ require('dotenv').config();
 
 const wordRouter = require('./routers/word');
 const partOfSpeechRouter = require('./routers/part-of-speech');
-const { morganBodyLogger } = require('./morgan');
+// const { morganBodyLogger } = require('./morgan');
 const errorHandlingMiddleware = require('./middlewares/errorHandlingMiddleware');
 const unknownEndpoint = require('./middlewares/unknownEndpoint');
 
