@@ -1,6 +1,9 @@
 const AWS = require('aws-sdk');
 const config = require('../data/config');
-const { convertToResFormat } = require('../helpers/convert');
+const {
+  convertToResFormat,
+  convertPartOfSpeechToTableFormat,
+} = require('../helpers/convert');
 
 const getWord = async (req, res) => {
   const word = req.params.word.toLowerCase();
@@ -30,6 +33,9 @@ const getWordByPartOfSpeech = async (req, res) => {
   const { partOfSpeech, word } = req.params;
   AWS.config.update(config.aws_remote_config);
 
+  const partOfSpeechTableFormat =
+    convertPartOfSpeechToTableFormat(partOfSpeech);
+
   const dynamodb = new AWS.DynamoDB();
 
   const params = {
@@ -38,7 +44,7 @@ const getWordByPartOfSpeech = async (req, res) => {
         S: word.toLowerCase(),
       },
       ':v2': {
-        S: partOfSpeech,
+        S: partOfSpeechTableFormat,
       },
     },
     KeyConditionExpression: 'Word=:v1 and Part_of_speech=:v2',

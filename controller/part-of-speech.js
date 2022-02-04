@@ -4,9 +4,10 @@ const {
   getRandomItem,
   getRandomItemByLetter,
 } = require('../helpers/getRandom');
+const { convertPartOfSpeechToTableFormat } = require('../helpers/convert');
 
 const getRandomWordOfPart = async (req, res) => {
-  const partOfSpeech = req.params.part;
+  const partOfSpeech = convertPartOfSpeechToTableFormat(req.params.part);
   const { letter } = req.query;
 
   AWS.config.update(config.aws_remote_config);

@@ -13,4 +13,8 @@ const convertToResFormat = (array) => {
   return resFormat;
 };
 
-module.exports = { convertToResFormat };
+const convertPartOfSpeechToTableFormat = (partOfSpeech) => {
+  return partOfSpeech.charAt(0).toUpperCase() + partOfSpeech.slice(1);
+};
+
+module.exports = { convertToResFormat, convertPartOfSpeechToTableFormat };
