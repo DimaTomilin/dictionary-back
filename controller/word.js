@@ -1,5 +1,4 @@
-const AWS = require('aws-sdk');
-const config = require('../data/config');
+const { dynamoDB } = require('../db');
 const {
   convertToResFormat,
   convertPartOfSpeechToTableFormat,
@@ -7,9 +6,6 @@ const {
 
 const getWord = async (req, res) => {
   const word = req.params.word.toLowerCase();
-  AWS.config.update(config.aws_remote_config);
-
-  const dynamodb = new AWS.DynamoDB();
 
   const params = {
     ExpressionAttributeValues: {
@@ -20,23 +16,20 @@ const getWord = async (req, res) => {
     KeyConditionExpression: 'Word=:v1',
     TableName: 'Words_Main_DB',
   };
-  dynamodb.query(params, (err, data) => {
+
+  dynamoDB.query(params, (err, data) => {
     if (err) {
       res.send({ error: err });
-    } else {
-      res.send(convertToResFormat(data.Items));
-    }
+    } else if (data.Items.length === 0) {
+      res.status(404).send({ error: 'No such word in database' });
+    } else res.send(convertToResFormat(data.Items));
   });
 };
 
 const getWordByPartOfSpeech = async (req, res) => {
   const { partOfSpeech, word } = req.params;
-  AWS.config.update(config.aws_remote_config);
-
   const partOfSpeechTableFormat =
     convertPartOfSpeechToTableFormat(partOfSpeech);
-
-  const dynamodb = new AWS.DynamoDB();
 
   const params = {
     ExpressionAttributeValues: {
@@ -50,7 +43,7 @@ const getWordByPartOfSpeech = async (req, res) => {
     KeyConditionExpression: 'Word=:v1 and Part_of_speech=:v2',
     TableName: 'Words_Main_DB',
   };
-  dynamodb.query(params, (err, data) => {
+  dynamoDB.query(params, (err, data) => {
     if (err) {
       res.send({ error: err });
     } else {

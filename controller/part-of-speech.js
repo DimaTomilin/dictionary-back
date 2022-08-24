@@ -1,34 +1,34 @@
-const AWS = require('aws-sdk');
-const config = require('../data/config');
+const { dynamoDB } = require('../db');
 const {
   getRandomItem,
   getRandomItemByLetter,
 } = require('../helpers/getRandom');
-const { convertPartOfSpeechToTableFormat } = require('../helpers/convert');
+const {
+  convertPartOfSpeechToTableFormat,
+  convertToResFormat,
+} = require('../helpers/convert');
 
 const getRandomWordOfPart = async (req, res) => {
   const partOfSpeech = convertPartOfSpeechToTableFormat(req.params.part);
   const { letter } = req.query;
 
-  AWS.config.update(config.aws_remote_config);
-
-  const docClient = new AWS.DynamoDB.DocumentClient();
-
   const params = {
     FilterExpression: 'Part_of_speech = :p',
     ExpressionAttributeValues: {
-      ':p': partOfSpeech,
+      ':p': { S: partOfSpeech },
     },
     TableName: 'Words_Main_DB',
   };
 
-  docClient.scan(params, (err, data) => {
-    if (err) {
-      res.send({ error: err });
-    } else if (letter) {
-      res.send(getRandomItemByLetter(data.Items, letter));
+  dynamoDB.scan(params, (err, data) => {
+    if (letter) {
+      const word = convertToResFormat(
+        getRandomItemByLetter(data.Items, letter)
+      );
+      res.send(word);
     } else {
-      res.send(getRandomItem(data.Items, data.Count));
+      const word = convertToResFormat(getRandomItem(data.Items, data.Count));
+      res.send(word);
     }
   });
 };
