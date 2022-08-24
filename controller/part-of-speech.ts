@@ -1,16 +1,14 @@
-const { dynamoDB } = require('../db');
-const {
-  getRandomItem,
-  getRandomItemByLetter,
-} = require('../helpers/getRandom');
-const {
+import { Request, Response } from 'express';
+import { dynamoDB } from '../db';
+import { getRandomItem, getRandomItemByLetter } from '../helpers/getRandom';
+import {
   convertPartOfSpeechToTableFormat,
   convertToResFormat,
-} = require('../helpers/convert');
+} from '../helpers/convert';
 
-const getRandomWordOfPart = async (req, res) => {
+export const getRandomWordOfPart = async (req: Request, res: Response) => {
   const partOfSpeech = convertPartOfSpeechToTableFormat(req.params.part);
-  const { letter } = req.query;
+  const { letter } = req.query as { letter: string };
 
   const params = {
     FilterExpression: 'Part_of_speech = :p',
@@ -20,17 +18,17 @@ const getRandomWordOfPart = async (req, res) => {
     TableName: 'Words_Main_DB',
   };
 
-  dynamoDB.scan(params, (err, data) => {
+  dynamoDB.scan(params, (_err, data: any | undefined) => {
     if (letter) {
       const word = convertToResFormat(
         getRandomItemByLetter(data.Items, letter)
       );
       res.send(word);
     } else {
+      console.log(data);
+      // console.log(getRandomItem(data.Items, data.Count)[0].Definition);
       const word = convertToResFormat(getRandomItem(data.Items, data.Count));
       res.send(word);
     }
   });
 };
-
-module.exports = { getRandomWordOfPart };

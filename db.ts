@@ -1,5 +1,6 @@
-const AWS = require('aws-sdk');
-require('dotenv').config();
+import AWS from 'aws-sdk';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const config = {
   aws_table_name: 'Words',
@@ -16,6 +17,4 @@ const config = {
 
 AWS.config.update(config.aws_remote_config);
 
-const dynamoDB = new AWS.DynamoDB();
-
-module.exports = { dynamoDB };
+export const dynamoDB = new AWS.DynamoDB();

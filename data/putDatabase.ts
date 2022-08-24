@@ -1,8 +1,14 @@
 /* eslint-disable */
-const fs = require('fs');
-const { dynamoDB } = require('../db');
+import fs from 'fs';
+import { dynamoDB } from '../db';
 
-const convertPartOfSpeech = (pos) => {
+interface ItemParams {
+  word: string;
+  pos: string;
+  definitions: string[];
+}
+
+const convertPartOfSpeech = (pos: string): string => {
   let PartOfSpeech;
   switch (pos) {
     case 'n.': {
@@ -41,11 +47,8 @@ const convertPartOfSpeech = (pos) => {
       PartOfSpeech = 'Pronoun';
       break;
     }
-    default: {
-      break;
-    }
   }
-  return PartOfSpeech;
+  return PartOfSpeech as string;
 };
 
 const createTable = () => {
@@ -66,7 +69,7 @@ const createTable = () => {
   };
 
   // Call DynamoDB to create table
-  dynamoDB.createTable(params, (err, data) => {
+  dynamoDB.createTable(params, (err: any, data: any) => {
     if (err) {
       console.error(
         'Unable to create table. Error JSON:',
@@ -87,7 +90,7 @@ const deleteTable = () => {
   };
 
   // Call DynamoDB to delete table
-  dynamoDB.deleteTable(params, (err, data) => {
+  dynamoDB.deleteTable(params, (err: any, data: any) => {
     if (err) {
       console.error(
         'Unable to create table. Error JSON:',
@@ -102,35 +105,38 @@ const deleteTable = () => {
   });
 };
 
-const addWordToTable = (start, end) => {
+const addWordToTable = (start: number, end: number) => {
   console.log('Importing words into DynamoDB. Please wait.');
 
   const allWords = JSON.parse(
     fs.readFileSync('./data/dictionary.json', 'utf8')
   );
-  allWords.slice(start, end).forEach(({ word, pos, definitions }) => {
-    const params = {
-      TableName: 'Words_Main_DB',
-      Item: {
-        Word: word.toLowerCase(),
-        Part_of_speech: convertPartOfSpeech(pos),
-        Definition: definitions,
-      },
-    };
+  allWords
+    .slice(start, end)
+    .forEach(({ word, pos, definitions }: ItemParams) => {
+      const params = {
+        TableName: 'Words_Main_DB',
+        Item: {
+          Word: word.toLowerCase(),
+          Part_of_speech: convertPartOfSpeech(pos),
+          Definition: definitions,
+        },
+      };
 
-    dynamoDB.putItem(params, (err, data) => {
-      if (err) {
-        console.error(
-          'Unable to add',
-          word,
-          '. Error JSON:',
-          JSON.stringify(err, null, 2)
-        );
-      } else {
-        console.log('PutItem succeeded:', word);
-      }
+      // @ts-ignore: Unreachable code error
+      dynamoDB.putItem(params, (err: any, data: any) => {
+        if (err) {
+          console.error(
+            'Unable to add',
+            word,
+            '. Error JSON:',
+            JSON.stringify(err, null, 2)
+          );
+        } else {
+          console.log('PutItem succeeded:', word);
+        }
+      });
     });
-  });
 };
 
 const creatingNewDB = () => {
@@ -150,3 +156,5 @@ const creatingNewDB = () => {
     console.log('NEW CHUNK');
   }, 60000);
 };
+
+creatingNewDB();
