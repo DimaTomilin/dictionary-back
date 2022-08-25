@@ -59,8 +59,10 @@ This directory is server part of my project. The application you can see here [M
 ### Built With
 
 - [Express](https://expressjs.com/)
+- [Typescript](https://www.typescriptlang.org/)
 - [AWS](https://docs.aws.amazon.com/)
 - [DynamoDB](https://aws.amazon.com/dynamodb/)
+- [Heroku-Deploy](https://heroku.com/)
 
 <p align="right">(<a href="#top">Back to top</a>)</p>
 
@@ -89,6 +91,10 @@ This is an example of how to list things you need to use the software and how to
    ```sh
    npm install
    ```
+3. Run servser
+   ```sh
+   npm run dev
+   ```
 
 <p align="right">(<a href="#top">Back to top</a>)</p>
 
@@ -104,6 +110,15 @@ This is an example of how to list things you need to use the software and how to
 <p align="right">(<a href="#top">Back to top</a>)</p>
 
 <!-- ROADMAP -->
+
+## Roadmap
+
+### Update 2.0
+
+- Adding typescript to project
+- Changing work with DB to more effective
+- Adding some comments
+- Heroku deploy
 
 ## Contributing
 
