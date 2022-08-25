@@ -25,8 +25,6 @@ export const getRandomWordOfPart = async (req: Request, res: Response) => {
       );
       res.send(word);
     } else {
-      console.log(data);
-      // console.log(getRandomItem(data.Items, data.Count)[0].Definition);
       const word = convertToResFormat(getRandomItem(data.Items, data.Count));
       res.send(word);
     }

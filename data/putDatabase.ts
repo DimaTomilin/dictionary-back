@@ -139,6 +139,12 @@ const addWordToTable = (start: number, end: number) => {
     });
 };
 
+/**
+ * creatingNewDB
+ *
+ * Function that user can use to create database to his own DynamoDB accout.
+ * It deletes, creates table and than sending all data in small chuncks that AWS will get it.
+ */
 const creatingNewDB = () => {
   deleteTable();
   createTable();

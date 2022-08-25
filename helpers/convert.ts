@@ -2,21 +2,34 @@
 
 import { Item } from '../types';
 
+/**
+ * convertToResFormat
+ *
+ * Fucntion get Array of words from DB and need to convert it to correct format that my user will get on clientside
+ * @param array Array of words from DynamoDB
+ * @returns A array of words in correct format
+ */
 export const convertToResFormat = (array: Item[]) => {
-  const resFormat = [];
+  const resFormatArray = [];
   for (const item of array) {
-    const resItem = { Word: '', Part_of_speech: '', Definition: [] };
-    resItem.Word = item.Word.S;
-    resItem.Part_of_speech = item.Part_of_speech.S;
+    const resFormatItem = { Word: '', Part_of_speech: '', Definition: [] };
+    resFormatItem.Word = item.Word.S;
+    resFormatItem.Part_of_speech = item.Part_of_speech.S;
     for (const def of item.Definition.L) {
       // @ts-ignore: Unreachable code error
-      resItem.Definition.push(def.S);
+      resFormatItem.Definition.push(def.S);
     }
-    resFormat.push(resItem);
+    resFormatArray.push(resFormatItem);
   }
-  return resFormat;
+  return resFormatArray;
 };
 
+/**
+ * convertPartOfSpeechToTableFormat
+ *
+ * @param partOfSpeech string of part of speech
+ * @returns string in table format with first letter upper case
+ */
 export const convertPartOfSpeechToTableFormat = (
   partOfSpeech: string
 ): string => {
