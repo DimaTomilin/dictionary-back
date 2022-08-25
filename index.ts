@@ -11,12 +11,10 @@ import partOfSpeechRouter from './routers/part-of-speech';
 
 import unknownEndpoint from './middlewares/unknownEndpoint';
 
-// import { morganBodyLogger } from './morgan';
 import { morganMiddleware } from './morgan';
 
 app.use(express.json());
 app.use(cors());
-// app.use(morganBodyLogger);
 app.use(morganMiddleware);
 
 app.use('/part-of-speech', partOfSpeechRouter);
