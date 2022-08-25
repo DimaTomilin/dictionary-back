@@ -1,6 +1,8 @@
-require('dotenv').config();
+import AWS from 'aws-sdk';
+import dotenv from 'dotenv';
+dotenv.config();
 
-module.exports = {
+const config = {
   aws_table_name: 'Words',
   aws_local_config: {
     region: 'local',
@@ -12,3 +14,7 @@ module.exports = {
     region: 'us-east-1',
   },
 };
+
+AWS.config.update(config.aws_remote_config);
+
+export const dynamoDB = new AWS.DynamoDB();
