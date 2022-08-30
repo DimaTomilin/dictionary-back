@@ -61,7 +61,7 @@ This directory is server part of my project. The application you can see here [M
 - [Express](https://expressjs.com/)
 - [Typescript](https://www.typescriptlang.org/)
 - [AWS](https://docs.aws.amazon.com/)
-- [DynamoDB](https://aws.amazon.com/dynamodb/)
+- [Postgres](https://www.postgresql.org/)
 - [Heroku-Deploy](https://heroku.com/)
 
 <p align="right">(<a href="#top">Back to top</a>)</p>
@@ -119,6 +119,10 @@ This is an example of how to list things you need to use the software and how to
 - Changing work with DB to more effective
 - Adding some comments
 - Heroku deploy
+
+### Update 3.0
+
+- Changing DB to Postgress
 
 ## Contributing
 
