@@ -24,11 +24,32 @@ export async function initDb() {
   );`);
 
   const wordsArray = await getMostPopularWords();
-  for (let word of wordsArray) {
+  for (let i = 0; i < wordsArray.length; i = i + 10) {
     await client.query(
-      `INSERT INTO words (word, part_of_speech, definitions) VALUES ('${word.word}','${word.part_of_speech}','${word.definitions}');`,
+      `INSERT INTO words (word, part_of_speech, definitions) VALUES ('${wordsArray[i + 0].word}','${
+        wordsArray[i + 0].part_of_speech
+      }','${wordsArray[i + 0].definitions}'),('${wordsArray[i + 1].word}','${wordsArray[i + 1].part_of_speech}','${
+        wordsArray[i + 1].definitions
+      }'),('${wordsArray[i + 2].word}','${wordsArray[i + 2].part_of_speech}','${wordsArray[i + 2].definitions}'),('${
+        wordsArray[i + 3].word
+      }','${wordsArray[i + 3].part_of_speech}','${wordsArray[i + 3].definitions}'),('${wordsArray[i + 4].word}','${
+        wordsArray[i + 4].part_of_speech
+      }','${wordsArray[i + 4].definitions}'),('${wordsArray[i + 5].word}','${wordsArray[i + 5].part_of_speech}','${
+        wordsArray[i + 5].definitions
+      }'),('${wordsArray[i + 6].word}','${wordsArray[i + 6].part_of_speech}','${wordsArray[i + 6].definitions}'),('${
+        wordsArray[i + 7].word
+      }','${wordsArray[i + 7].part_of_speech}','${wordsArray[i + 7].definitions}'),('${wordsArray[i + 8].word}','${
+        wordsArray[i + 8].part_of_speech
+      }','${wordsArray[i + 8].definitions}'),('${wordsArray[i + 9].word}','${wordsArray[i + 9].part_of_speech}','${
+        wordsArray[i + 9].definitions
+      }');`,
     );
   }
+  // for (let word of wordsArray) {
+  //   await client.query(
+  //     `INSERT INTO words (word, part_of_speech, definitions) VALUES ('${word.word}','${word.part_of_speech}','${word.definitions}');`,
+  //   );
+  // }
 }
 
 initDb();
