@@ -1,7 +1,7 @@
 /* eslint-disable */
 import express, { Express } from 'express';
 const app: Express = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4200;
 
 import cors from 'cors';
 require('express-async-errors');

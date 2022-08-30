@@ -2,9 +2,9 @@ import express from 'express';
 
 const router = express.Router();
 
-import { getWord, getWordByPartOfSpeech } from '../controller/word';
+import { getWordFunc, getWordByPartOfSpeechFunc } from '../controller/word';
 
-router.get('/:word', getWord);
-router.get('/:word/:partOfSpeech', getWordByPartOfSpeech);
+router.get('/:word', getWordFunc);
+router.get('/:word/:partOfSpeech', getWordByPartOfSpeechFunc);
 
 export default router;
