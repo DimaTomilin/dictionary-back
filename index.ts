@@ -11,11 +11,11 @@ import partOfSpeechRouter from './routers/part-of-speech';
 
 import unknownEndpoint from './middlewares/unknownEndpoint';
 
-import { morganMiddleware } from './morgan';
+// import { morganMiddleware } from './morgan';
 
 app.use(express.json());
 app.use(cors());
-app.use(morganMiddleware);
+// app.use(morganMiddleware);
 
 app.use('/part-of-speech', partOfSpeechRouter);
 app.use('/', wordRouter);
