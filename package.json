@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.ts",
+    "start": "node dist/index.js",
+    "build": "tsc",
     "dev": "npx nodemon index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:test": "cross-env NODE_ENV=test node index.js"
